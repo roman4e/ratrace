@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Крысиные бега - учётка</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<meta charset="utf-8" />
+		<!-- <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" /> -->
+
+		<!-- <link rel="stylesheet" type="text/css" href="https://bootswatch.com/4/flatly/bootstrap.min.css" /> -->
+		<link rel="stylesheet" type="text/css" href="assets/bootstrap.min.css" />
+
+		<script type="text/javascript" src="assets/jquery-3.3.1.min.js"></script>
+		<script type="text/javascript" src="assets/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="assets/bootstrap.bundle.min.js"></script>
+		<link rel="stylesheet" href="assets/fa-solid.css" integrity="sha384-TbilV5Lbhlwdyc4RuIV/JhD8NR+BfMrvz4BL5QFa2we1hQu6wvREr3v6XSRfCTRp" crossorigin="anonymous">
+		<link rel="stylesheet" href="assets/fontawesome.css" integrity="sha384-ozJwkrqb90Oa3ZNb+yKFW2lToAWYdTiF1vt8JiH5ptTGHTGcN7qdoR1F95e0kYyG" crossorigin="anonymous">
+		<script type="text/javascript" src="rr.js"></script>
+		<style>
+			.hidden {
+				display: none;
+			}
+
+			#income-card .income-flow-info .input-group-prepend {
+				width: 50%;
+			}
+
+			#income-card .income-stocks-info .input-group-prepend {
+				width: 15%;
+			}
+
+			#income-card .income-flow-info .input-group-prepend span,
+			#income-card .income-stocks-info .input-group-prepend span {
+				width: 100%;
+			}
+
+			.input-group-prepend.w100, .input-group-prepend.w100 span {
+				width: 100%;
+			}
+
+			@media screen and (max-width: 576px) and (orientation: portrait) {
+				.onmobile {
+					clear: left;
+				}
+
+				.fbasis100 {
+					flex-basis: 100%;
+					max-width: 100%;
+				}
+
+				.row:not(.nobr)>.col:not(.nobr), .row:not(.nobr)>.col-6:not(.nobr) {
+					flex-basis: 100%;
+					max-width: 100%;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row onmobile">
+				<div class="col-6">
+					<div class="input-group">
+							<button class="btn btn-error" id="reset">[x]</button>
+
+						<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-address-card"></i></span></div>
+						<input type="text" class="form-control" id="username" placeholder="Имя игрока">
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group" id="world">
+						<div class="input-group-prepend"><span class="input-group-text">Мир </span></div>
+						<div class="btn-group btn-group-toggle" data-toggle="buttons"><label class="btn btn-primary">бедных<input name="world" value="poor" type="radio"/></label>
+							<label class="btn btn-primary">богатых<input type="radio" name="world" value="reach" /></label>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="input-group">
+						<div class="input-group-prepend"><span class="input-group-text"><i class="fas fa-user-graduate"></i></span></div>
+						<button class="btn dropdown-toggle" id="profession-select" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Профессия</button>
+						<div class="dropdown-menu" id="professions-list" aria-labelledby="profession-select">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col" style="margin: 15px;border: 1px solid navy; border-radius: 6px;">
+					<button class="btn btn-large btn-primary" style="margin: 10px;" id="finishRound">Новый круг</button>
+				</div>
+				<div class="col" style="margin: 15px;border: 1px solid navy; border-radius: 6px;">
+					<div style="line-height: 30px;font-size:24px;">Получить <span id="takeMoney">0</span> денег из банка</div>
+				</div>
+			</div>
+		</div>
+		<div class="container hidden0" id="poor-world">
+			<div class="card income-flow" id="income-card">
+				<div class="card-header">Доходы</div>
+				<div class="container">
+					<div class="row">
+						<div class="col income-flow-info">
+							<div class="input-group">
+								<div class="input-group-prepend" class="w-25"><span class="input-group-text">Активный доход</span></div>
+								<input type="text" class="form-control" id="activeIncome" disabled="disabled">
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend" class="w-25"><span class="input-group-text">Пассивный доход</span></div>
+								<input type="text" class="form-control" id="passiveIncome" disabled="disabled">
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend" class="w-25"><span class="input-group-text badge-info">Общий доход</span></div>
+								<input type="text" class="form-control" id="totalIncome" disabled="disabled">
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend" class="w-25"><span class="input-group-text badge-warning">Общий расход</span></div>
+								<input type="text" class="form-control" id="totalExpenses" disabled="disabled">
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend" class="w-25"><span class="input-group-text badge-success">Выдать на руки</span></div>
+								<input type="text" class="form-control" id="roundPayment" disabled="disabled">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col income-stocks-info">
+							<h4>Акции</h4>
+							<div class="input-group">
+								<div class="input-group-prepend"><span class="input-group-text">УКТ</span></div>
+								<input type="text" name="shares_ukt" placeholder="количество" class="form-control"/>
+								<input type="text" name="shares_ukt_price" placeholder="цена покупки" class="form-control" />
+								<button class="btn btn-light"><i class="fas fa-dollar-sign"></i></button>
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend"><span class="input-group-text">КРС</span></div>
+								<input type="text" name="shares_krs" placeholder="количество" class="form-control"/>
+								<input type="text" name="shares_krs_price" placeholder="цена покупки" class="form-control" />
+								<button class="btn btn-light"><i class="fas fa-dollar-sign"></i></button>
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend"><span class="input-group-text">КЧГ</span></div>
+								<input type="text" name="shares_kcg" placeholder="количество" class="form-control"/>
+								<input type="text" name="shares_kcg_price" placeholder="цена покупки" class="form-control" />
+								<button class="btn btn-light"><i class="fas fa-dollar-sign"></i></button>
+
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend"><span class="input-group-text">ЯКХЗ</span></div>
+								<input type="text" name="shares_ykhz" placeholder="количество" class="form-control"/>
+								<input type="text" name="shares_ykhz_price" placeholder="цена покупки" class="form-control" />
+								<button class="btn btn-light"><i class="fas fa-dollar-sign"></i></button>
+
+							</div>
+							<div class="input-group">
+								<div class="input-group-prepend"><span class="input-group-text">ДР</span></div>
+								<input type="text" name="shares_dr" placeholder="количество" class="form-control"/>
+								<input type="text" name="shares_dr_price" placeholder="цена покупки" class="form-control" />
+								<button class="btn btn-light"><i class="fas fa-dollar-sign"></i></button>
+
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-6">
+							<div class="input-group">
+								<div class="input-group-prepend"><span class="input-group-text">Зарплата:</span></div>
+								<input type="text" class="form-control" name="salary" id="salary"/>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="row nobr">
+								<div class="col-6">Недвижимость: </div>
+								<div class="col"><button class="btn btn-light" id="propertyAddBtn">+</button></div>
+							</div>
+						</div>
+						<div class="card-body" id="property-list">
+							<script id="property-template" type="text/html">
+								<div class="row" id="property-row-#">
+								<div class="input-group">
+									<div class="col-1"><button class="btn btn-info form-control" name="removebtn">-</button></div>
+									<div class="col-4"><input type="text" class="form-control" name="property-name-#" placeholder="Название"></div>
+									<div class="col"><input type="text" class="form-control" name="property-income-#" placeholder="Доход"></div>
+									<div class="col-1 credit-enable"><label>Кредит?<input type="checkbox" name="property-hascredit-#"></label></div>
+								</div>
+								</div>
+								<div class="row">
+									<div class="input-group">
+										<div class="col"><input type="text" class="form-control hidden" name="property-credit-#" placeholder="Кредит" disabled="disabled"></div>
+										<div class="col"><input type="text" class="form-control hidden" name="property-monthly-pay-#" placeholder="Ежемесячно" disabled="disabled"></div>
+									</div>
+								</div>
+							</div>
+							</script>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="row nobr">
+								<div class="col-6">Малый бизнес:</div>
+								<div class="col"><button class="btn btn-light" id="smallbizAddBtn">+</button></div>
+							</div>
+						</div>
+						<div class="card-body" id="smallbiz-list">
+							<script id="smallbiz-template" type="text/html">
+								<div class="row" id="smallbiz-row-#">
+									<div class="input-group">
+										<div class="col-1"><button class="btn btn-info form-control" name="removebtn">-</button></div>
+										<div class="col-4"><input type="text" class="form-control" name="smallbiz-name-#" placeholder="Название"></div>
+										<div class="col"><input type="text" class="form-control" name="smallbiz-income-#" placeholder="Доход"></div>
+									</div>
+								</div>
+							</script>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header">
+							<div class="row nobr">
+								<div class="col-6">Крупный бизнес:</div>
+								<div class="col"><button class="btn btn-light" id="largebizAddBtn">+</button></div>
+							</div>
+						</div>
+						<div class="card-body" id="largebiz-list">
+							<script id="largebiz-template" type="text/html">
+								<div class="row" id="largebiz-row-#">
+									<div class="col-1"><button class="btn btn-info form-control" name="removebtn">-</button></div>
+									<div class="col-4"><input type="text" class="form-control" name="largebiz-#" placeholder="Название"></div>
+									<div class="col"><input type="text" class="form-control" name="largebiz-income-#" placeholder="Доход"></div>
+								</div>
+							</script>
+						</div>
+					</div>
+					<div class="row">
+						<div class="input-group">
+							<div class="col-6"><span class="input-group-text">Другие доходы</span></div>
+							<div class="col"><input type="text" class="form-control" name="other-income1" id="other-income1" /></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card" id="expenses-card">
+				<div class="card-header">Расходы</div>
+				<div class="card-body">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Квартплата</span></div>
+									<input type="text" name="property" id="property" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Аренда жилья</span></div>
+									<input type="text" name="rent" id="rent" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы на питание</span></div>
+									<input type="text" name="food" id="food" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы на обучение</span></div>
+									<input type="text" name="learning" id="learning" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы на тренинги</span></div>
+									<input type="text" name="trennings" id="trennings" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы на гардероб</span></div>
+									<input type="text" name="wardrobe" id="wardrobe" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы на проезд/бензин</span></div>
+									<input type="text" name="travel-gas" id="travel-gas" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы на телефон</span></div>
+									<input type="text" name="phone" id="phone" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Детей</span></div>
+									<input type="text" name="children-count" id="children-count" class="form-control" />
+								</div>
+							</div>
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы на ребёнка</span></div>
+									<input type="text" name="children-pay" id="children-pay" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Расходы по опеке</span></div>
+									<input type="text" name="tutelage" id="tutelage" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Другие расходы 1</span></div>
+									<input type="text" name="other-expenses1" id="other-expenses1" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Другие расходы 2</span></div>
+									<input type="text" name="other-expenses2" id="other-expenses2" class="form-control" />
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col">
+								<div class="input-group">
+									<div class="input-group-prepend"><span class="input-group-text">Другие расходы 3</span></div>
+									<input type="text" name="other-expenses3" id="other-expenses3" class="form-control" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
