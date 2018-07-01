@@ -25,17 +25,28 @@
 				width: 50%;
 			}
 
+			#expenses-card .expenses-flow-info .input-group-prepend {
+				width: 75%;
+			}
+
 			#income-card .income-stocks-info .input-group-prepend {
 				width: 15%;
 			}
 
 			#income-card .income-flow-info .input-group-prepend span,
-			#income-card .income-stocks-info .input-group-prepend span {
+			#income-card .income-stocks-info .input-group-prepend span,
+			#expenses-card .expenses-flow-info .input-group-prepend span {
 				width: 100%;
 			}
 
 			.input-group-prepend.w100, .input-group-prepend.w100 span {
 				width: 100%;
+			}
+
+			button[name="removebtn"] {
+				width: 22px;
+				padding-left: 2px;
+				padding-right: 2px
 			}
 
 			@media screen and (max-width: 576px) and (orientation: portrait) {
@@ -182,8 +193,8 @@
 							<script id="property-template" type="text/html">
 								<div class="row" id="property-row-#">
 								<div class="input-group">
-									<div class="col-1"><button class="btn btn-info form-control" name="removebtn">-</button></div>
-									<div class="col-4"><input type="text" class="form-control" name="property-name-#" placeholder="Название"></div>
+									<div class="col-1"><button class="btn btn-info form-control" name="removebtn">[-]</button></div>
+									<div class="col-5"><input type="text" class="form-control" name="property-name-#" placeholder="Название"></div>
 									<div class="col"><input type="text" class="form-control" name="property-income-#" placeholder="Доход"></div>
 									<div class="col-1 credit-enable"><label>Кредит?<input type="checkbox" name="property-hascredit-#"></label></div>
 								</div>
@@ -209,9 +220,9 @@
 							<script id="smallbiz-template" type="text/html">
 								<div class="row" id="smallbiz-row-#">
 									<div class="input-group">
-										<div class="col-1"><button class="btn btn-info form-control" name="removebtn">-</button></div>
-										<div class="col-4"><input type="text" class="form-control" name="smallbiz-name-#" placeholder="Название"></div>
-										<div class="col"><input type="text" class="form-control" name="smallbiz-income-#" placeholder="Доход"></div>
+										<div class="col-1"><button class="btn btn-info form-control" name="removebtn">[-]</button></div>
+										<div class="col"><input type="text" class="form-control" name="smallbiz-name-#" placeholder="Название">
+										<input type="text" class="form-control" name="smallbiz-income-#" placeholder="Доход"></div>
 									</div>
 								</div>
 							</script>
@@ -227,17 +238,19 @@
 						<div class="card-body" id="largebiz-list">
 							<script id="largebiz-template" type="text/html">
 								<div class="row" id="largebiz-row-#">
-									<div class="col-1"><button class="btn btn-info form-control" name="removebtn">-</button></div>
-									<div class="col-4"><input type="text" class="form-control" name="largebiz-#" placeholder="Название"></div>
+									<div class="col-1"><button class="btn btn-info form-control" name="removebtn">[-]</button></div>
+									<div class="col-5"><input type="text" class="form-control" name="largebiz-#" placeholder="Название"></div>
 									<div class="col"><input type="text" class="form-control" name="largebiz-income-#" placeholder="Доход"></div>
 								</div>
 							</script>
 						</div>
 					</div>
 					<div class="row">
-						<div class="input-group">
-							<div class="col-6"><span class="input-group-text">Другие доходы</span></div>
-							<div class="col"><input type="text" class="form-control" name="other-income1" id="other-income1" /></div>
+						<div class="col">
+							<div class="input-group">
+								<div class="input-group-prepend"><span class="input-group-text">Другие доходы</span></div>
+								<input type="text" class="form-control" name="other-income1" id="other-income1" />
+							</div>
 						</div>
 					</div>
 				</div>
@@ -245,7 +258,7 @@
 			<div class="card" id="expenses-card">
 				<div class="card-header">Расходы</div>
 				<div class="card-body">
-					<div class="container">
+					<div class="container expenses-flow-info">
 						<div class="row">
 							<div class="col">
 								<div class="input-group">
